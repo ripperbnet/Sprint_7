@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,7 +22,9 @@ public class CreateNewOrderTest {
 
     private OrderRequest orderRequest;
 
-    public String color = orderRequest.setColor(getColorData);
+   // public String<List> color = orderRequest.setColor(getColorData());
+
+    List<String> color = orderRequest.setColor(color);
 
 
 
@@ -38,7 +41,6 @@ public class CreateNewOrderTest {
 
 
     @Parameterized.Parameters
-
     public static Object[][] getColorData() {
         return new Object[][] {
                 {new String[]{"BLACK"}},
@@ -51,8 +53,6 @@ public class CreateNewOrderTest {
     @Test
     public void orderShouldBeCreated() {
         OrderRequest randomOrder = getRandomOrder();
-
-
         OrderRequest orderRequest = new OrderRequest();
         orderRequest.setColor(color);
         orderClient.create(randomOrder)

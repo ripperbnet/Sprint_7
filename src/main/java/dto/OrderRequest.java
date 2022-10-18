@@ -1,5 +1,8 @@
 package dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OrderRequest {
 
     private String firstName;
@@ -18,7 +21,7 @@ public class OrderRequest {
 
     private String comment;
 
-    private String color;
+    List<String> color = new ArrayList<>();
 
 
     public String getFirstName() {
@@ -85,11 +88,11 @@ public class OrderRequest {
         this.comment = comment;
     }
 
-    public String getColor() {
+    public List<String> getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(List<String> color) {
         this.color = color;
     }
 }
