@@ -2,12 +2,16 @@ import client.CourierClient;
 import dto.CourierRequest;
 import dto.LoginRequest;
 import generator.LoginRequestGenerator;
+import io.qameta.allure.Description;
 import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
 
 import static generator.CourierRequestGenerator.getRandomCourier;
+import static generator.LoginRequestGenerator.loginWithNullLogin;
+import static generator.LoginRequestGenerator.loginWithNullPassword;
 import static org.apache.http.HttpStatus.*;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -32,29 +36,30 @@ public class CourierLoginTest {
         }
     }
 
-    @Test // Проверки входа без логина и без пароля
+    @Test
+    @DisplayName("Check validation of login and password fields")
+    @Description("Negative test of /api/v1/courier/login endpoint")
     public void courierShouldNotBeLogged() {
-        // попытка входа без логина
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setLogin(null);
-        loginRequest.setPassword("12345");
-        courierClient.login(loginRequest)
+
+        //попытка входа без логина
+        courierClient.login(loginWithNullLogin())
                 .assertThat()
                 .statusCode(SC_BAD_REQUEST)
                 .and()
                 .body("message", equalTo("Недостаточно данных для входа"));
+
         // попытка входа без пароля
         // (тест фэйлится если не вводить пароль, ошибка 504)
-        loginRequest.setLogin("TestLogin12345");
-        loginRequest.setPassword(null);
-        courierClient.login(loginRequest)
+        courierClient.login(loginWithNullPassword())
                 .assertThat()
                 .statusCode(SC_BAD_REQUEST)
                 .and()
                 .body("message", equalTo("Недостаточно данных для входа"));
     }
 
-    @Test // Проверка валидации поля login
+    @Test
+    @DisplayName("Check validation of login field")
+    @Description("Negative test of /api/v1/courier/login endpoint")
     public void loginFieldShouldBeValidated() {
 
         CourierRequest randomCourier = getRandomCourier();
@@ -83,7 +88,9 @@ public class CourierLoginTest {
                 .body("message", equalTo("Учетная запись не найдена"));
     }
 
-   @Test // Проверка валидации поля password
+   @Test
+   @DisplayName("Check validation of pаssword field")
+   @Description("Negative test of /api/v1/courier/login endpoint")
     public void passwordFieldShouldBeValidated() {
        CourierRequest randomCourier = getRandomCourier();
 

@@ -10,4 +10,18 @@ public class LoginRequestGenerator {
         loginRequest.setPassword(courierRequest.getPassword());
         return loginRequest;
     }
+
+    public static LoginRequest loginWithNullLogin() {
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setLogin(null);
+        loginRequest.setPassword("12345");
+        return loginRequest;
+    }
+
+    public static LoginRequest loginWithNullPassword() {
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setLogin("TestLogin123");
+        loginRequest.setPassword(null);
+        return loginRequest;
+    }
 }

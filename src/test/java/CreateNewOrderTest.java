@@ -1,32 +1,17 @@
 import client.OrderClient;
-import com.beust.jcommander.Parameter;
 import dto.OrderRequest;
-import org.apache.http.HttpStatus;
+import jdk.jfr.Description;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import org.junit.jupiter.api.DisplayName;
 
 import static generator.OrderRequestGenerator.getRandomOrder;
 import static org.apache.http.HttpStatus.SC_CREATED;
 
-@RunWith(Parameterized.class)
 public class CreateNewOrderTest {
 
     private OrderClient orderClient;
-
-    private OrderRequest orderRequest;
-
-   // public String<List> color = orderRequest.setColor(getColorData());
-
-    List<String> color = orderRequest.setColor(color);
-
-
 
     @Before
     public void setUp() {
@@ -34,32 +19,17 @@ public class CreateNewOrderTest {
     }
 
 
-    public CreateNewOrderTest(List<String> color) {
-        this.color = color;
-    }
-
-
-
-    @Parameterized.Parameters
-    public static Object[][] getColorData() {
-        return new Object[][] {
-                {new String[]{"BLACK"}},
-                {new String[]{"GREY"}},
-                {new String[]{"GREY", "BLACK"}}
-        };
-    }
-
-
     @Test
-    public void orderShouldBeCreated() {
+    @DisplayName("Creating and order without color")
+    @Description("Positive test of endpoint /api/v1/orders without color")
+    public void createOrderWithoutColor() {
         OrderRequest randomOrder = getRandomOrder();
         OrderRequest orderRequest = new OrderRequest();
-        orderRequest.setColor(color);
+        orderRequest.setColor(null);
         orderClient.create(randomOrder)
                 .assertThat()
                 .statusCode(SC_CREATED)
                 .and()
                 .body("track", Matchers.notNullValue());
     }
-
 }

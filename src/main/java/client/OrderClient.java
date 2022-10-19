@@ -18,4 +18,12 @@ public class OrderClient extends RestClient {
                 .post(ORDER)
                 .then();
     }
+
+    @Step
+    public ValidatableResponse getOrders() {
+        return given()
+                .spec(getDefaultRequestSpec())
+                .get(ORDER)
+                .then();
+    }
 }

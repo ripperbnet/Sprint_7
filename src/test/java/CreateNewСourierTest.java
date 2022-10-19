@@ -2,11 +2,13 @@ import client.CourierClient;
 import dto.CourierRequest;
 import dto.LoginRequest;
 import generator.LoginRequestGenerator;
+import io.qameta.allure.Description;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
 
 import static generator.CourierRequestGenerator.getRandomCourier;
 import static org.apache.http.HttpStatus.*;
@@ -33,7 +35,9 @@ public class CreateNewСourierTest {
         }
     }
 
-    @Test // Проверка создания курьера
+    @Test
+    @DisplayName("Creating a valid courier")
+    @Description("Positive test of api /api/v1/courier endpoint")
     public void courierShouldBeCreated() {
 
         CourierRequest randomCourier = getRandomCourier();
@@ -59,20 +63,19 @@ public class CreateNewСourierTest {
                     .body("id", Matchers.notNullValue())
                     .extract()
                     .path("id");
-
-
     }
 
-    @Test // Проверка негативного сценария создания курьера
+    @Test
+    @DisplayName("Creating an invalid courier without password")
+    @Description("Negative test of api /api/v1/courier endpoint")
     public void courierShouldNotBeCreated() {
         CourierRequest courierRequest = new CourierRequest();
         courierRequest.setLogin(RandomStringUtils.randomAlphabetic(11));
-        courierRequest.setPassword(null); // Проверяем регистрацию курьера без ввода пароля
+        courierRequest.setPassword(null);
         courierClient.create(courierRequest)
                 .assertThat()
                 .statusCode(SC_BAD_REQUEST)
                 .and()
                 .body("message", equalTo("Недостаточно данных для создания учетной записи"));
-
     }
 }
