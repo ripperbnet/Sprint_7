@@ -23,8 +23,8 @@ public class GetOrderListTest {
     }
 
     @Test
-    @DisplayName("Creating and order without color")
-    @Description("Positive test of endpoint /api/v1/orders without color")
+    @DisplayName("Getting order by track")
+    @Description("Positive test of endpoint /v1/orders/track?t={track}")
     public void createOrderWithoutColor() {
         OrderRequest randomOrder = getRandomOrder();
         OrderRequest orderRequest = new OrderRequest();
