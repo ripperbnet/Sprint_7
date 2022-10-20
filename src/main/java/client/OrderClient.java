@@ -10,6 +10,8 @@ public class OrderClient extends RestClient {
 
     public static final String ORDER = "/api/v1/orders";
 
+    public static final String ORDERBYTRACK = "/v1/orders/track?t={track}";
+
     @Step
     public ValidatableResponse create(OrderRequest orderRequest) {
         return given()
@@ -20,10 +22,10 @@ public class OrderClient extends RestClient {
     }
 
     @Step
-    public ValidatableResponse getOrders() {
+    public ValidatableResponse getOrders(int track) {
         return given()
                 .spec(getDefaultRequestSpec())
-                .get(ORDER)
+                .get(ORDERBYTRACK, track)
                 .then();
     }
 }
